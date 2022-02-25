@@ -1,0 +1,37 @@
+﻿@using APIRESTFul_WebNexosLDCU.Negocio;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Listado de Libros</h2>
+
+@{ List<Libro_nxsw> libros = (List<Libro_nxsw>)ViewBag.libros; }
+@Html.ActionLink("Crear Libro", "Create")
+<table>
+    <tr>
+        <th>Título</th>
+        <th>Año</th>
+        <th>Género</th>
+        <th>Número de páginas</th>
+        <th>Autor</th>
+        <th>Opciones</th>
+    </tr>
+    @foreach(var libro in libros)
+            {
+                <tr>
+                    <td>@libro.Titulo_libro</td>
+                    <td>@libro.Ano_libro</td>
+                    <td>@libro.Genero_libro</td>
+                    <td>@libro.Numpags_libro</td>
+                    <td>@libro.Autor_nxsw.Nombreyapell_autor</td>
+                    <td>
+                        @*/localhost:5492/Libro/Delete/1*@
+                        @Html.ActionLink("Eliminar", "Delete", new { id_libro = libro.Id_libro })
+                        @Html.ActionLink("Editar", "Edit", new { id_libro = libro.Id_libro })
+                    </td>
+                </tr>
+            }
+</table>
+
+@TempData["mensaje"]

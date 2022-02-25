@@ -1,0 +1,96 @@
+Script para creación de las tablas en la BD:
+create table libro_nxsw
+(
+    libro_id     number primary key,
+    titulo_libro varchar2(200),
+    ano_libro varchar2(50),
+    genero_libro varchar2(200),
+    numpags_libro varchar2(50),
+    autor_id    number
+);
+
+create table autor_nxsw
+(
+    autor_id number primary key,
+    nombreyapell_autor     varchar2(50),
+    fechanac_autor    date,
+    ciudadproc_autor    varchar2(100),
+    email_autor    varchar2(50)
+);
+
+alter table libro_nxsw
+    add foreign key (autor_id) references autor_nxsw (autor_id);
+
+CREATE SEQUENCE libro_seq
+    START WITH 5000
+    INCREMENT BY 1
+    NOCACHE
+    NOCYCLE;
+
+CREATE SEQUENCE autor_seq
+    START WITH 1000
+    INCREMENT BY 1
+    NOCACHE
+    NOCYCLE;
+
+Scripts para creación de los Stored Procedure o Procedimientos Alamacenados en la BD:
+create or replace procedure SP_CREATE_LIBRO(v_titulo_libro varchar2, v_ano_libro varchar2, v_genero_libro varchar2, 
+                                               v_numpags_libro varchar2, v_autor_id number) as
+begin
+    insert into libro_nxsw values (libro_seq.nextval, v_titulo_libro, v_ano_libro, v_genero_libro, v_numpags_libro, v_autor_id);
+    commit;
+end;
+
+create or replace procedure SP_UPDATE_LIBRO(v_libro_id number, v_titulo_libro varchar2, v_ano_libro varchar2, 
+                                               v_genero_libro varchar2, v_numpags_libro varchar2, v_autor_id number) as
+begin
+    UPDATE libro_nxsw
+    SET titulo_libro = v_titulo_libro,
+        ano_libro = v_ano_libro,
+        genero_libro  = v_genero_libro,
+        numpags_libro = v_numpags_libro,
+        autor_id    = v_autor_id
+    where libro_id = v_libro_id;
+    commit;
+end;
+
+create or replace procedure SP_DELETE_LIBRO(v_libro_id number) as
+begin
+    delete from libro_nxsw where libro_id = v_libro_id;
+    commit;
+end;
+
+create or replace procedure SP_CREATE_AUTOR(v_nombreyapell_autor varchar2, v_fechanac_autor date, 
+                                               v_ciudadproc_autor varchar2, v_email_autor varchar2) as
+begin
+    insert into autor_nxsw values (autor_seq.nextval, v_nombreyapell_autor, v_fechanac_autor, v_ciudadproc_autor,
+    v_email_autor);
+    commit;
+end;
+
+create or replace procedure SP_UPDATE_AUTOR(v_autor_id number, v_nombreyapell_autor varchar2, v_fechanac_autor date,
+                                               v_ciudadproc_autor varchar2, v_email_autor varchar2) as
+begin
+    update autor_nxsw set nombreyapell_autor = v_nombreyapell_autor, fechanac_autor = v_fechanac_autor, 
+    ciudadproc_autor = v_ciudadproc_autor, email_autor = v_email_autor where AUTOR_ID = v_autor_id;
+    commit;
+end;
+
+create or replace procedure SP_DELETE_AUTOR(v_autor_id number) as
+begin
+    delete from autor_nxsw where autor_id = v_autor_id;
+    commit;
+end;
+
+insert into autor_nxsw values (autor_seq.nextval, 'Humberto Eco', '01/05/1932', 'Alessandria, Italy', 'ueco@gmail.com');
+insert into autor_nxsw values (autor_seq.nextval, 'Miguel de Cervantes', '09/29/1547', 'Alcalá de Henares, España', 'mcervantess@hotmail.com');
+insert into autor_nxsw values (autor_seq.nextval, 'Gabriel García Márquez', '03/06/1927', 'Aracataca, Colombia', 'ggmarquez@gmail.com');
+insert into autor_nxsw values (autor_seq.nextval, 'Charles Dickens', '02/07/1812', 'Portmouth, Inglaterra', 'cdickens@yahoo.com');
+
+insert into libro_nxsw values (libro_seq.nextval, 'Cien años de soledad', '1967', 'Novela', 274, 1002);
+insert into libro_nxsw values (libro_seq.nextval, 'Cuento de Navidad', '1843', 'Cuento', 75, 1003);
+insert into libro_nxsw values (libro_seq.nextval, 'Apocalípticos e integrados', '1951', 'Ensayo', 126, 1000);
+insert into libro_nxsw values (libro_seq.nextval, 'El Ingenioso Hidalgo don Quijote de la Mancha', '1605', 'Novela', 984, 1004);
+
+
+

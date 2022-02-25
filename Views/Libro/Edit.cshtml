@@ -1,0 +1,25 @@
+﻿@model APIRESTFul_WebNexosLDCU.Negocio.Libro_nxsw
+@{
+    ViewBag.Title = "Editar";
+}
+
+<h2>Editar datos del Libro</h2>
+@Html.ActionLink("Listado de Libros", "Index")
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(p => p.Id_libro);
+    @Html.LabelFor(p => p.Titulo_libro);
+    @Html.TextBoxFor(p => p.Titulo_libro);
+    <br />
+    @Html.LabelFor(p => p.Ano_libro);
+    @Html.TextBoxFor(p => p.Ano_libro);
+    < br />
+    @Html.LabelFor(p => p.Genero_libro);
+    @Html.TextBoxFor(p => p.Genero_libro);
+    < br />
+    @Html.LabelFor(p => p.Autor_id, "Autor");
+    @Html.DropDownListFor(p => p.Autor_id, new SelectList(ViewBag.autores, "Id_autor", "Nombreyapell_autor"));
+    < br />
+    <button>Modificar</button>
+}
+
